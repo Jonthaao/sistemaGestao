@@ -1,0 +1,111 @@
+🚀 Fluxo para produção
+Gere o build do frontend:
+
+bash
+docker exec -it gestao_frontend npm run build
+Suba os containers com override:
+
+bash
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --build
+Teste:
+
+Frontend Vue.js: http://localhost:8080
+
+Backend API: http://localhost:8080/api/health
+
+🎯 Resumindo
+Em dev: http://localhost:5173 (Vite com hot reload) + http://localhost:8080/api.
+
+Em prod: tudo servido pelo Nginx em http://localhost:8080.
+
+
+
+Preparar o servidor
+Instalar Docker e Docker Compose na máquina de produção.
+
+Garantir que as portas necessárias estão liberadas (ex.: 80, 443, 5432).
+
+Configurar firewall e regras de segurança (ex.: ufw allow 80, ufw allow 443).
+
+2. Clonar o repositório
+bash
+git clone git@github.com:Jonthaao/sistemaGestao.git
+cd sistemaGestao
+3. Configurar variáveis de ambiente
+Copiar .env.example para .env no backend.
+
+Ajustar:
+
+Banco de dados (usuário, senha, host).
+
+APP_ENV=production
+
+APP_DEBUG=false
+
+APP_URL=https://seudominio.com
+
+4. Build do frontend
+Dentro do container do frontend:
+
+bash
+docker-compose run --rm frontend npm install
+docker-compose run --rm frontend npm run build
+Isso gera os arquivos estáticos em frontend/dist.
+
+5. Subir containers em modo produção
+bash
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d --build
+6. Configurar Nginx
+O nginx/default.conf já está preparado para servir:
+
+/ → frontend build (dist)
+
+/api → backend Laravel
+
+Testar acessando:
+
+Frontend: http://seudominio.com
+
+API: http://seudominio.com/api/health
+
+7. Banco de dados
+Criar usuário e base de dados no Postgres.
+
+Rodar migrations:
+
+bash
+docker exec -it gestao_backend php artisan migrate --force
+8. Segurança
+Configurar HTTPS (certificado SSL via Certbot).
+
+Verificar permissões de pastas (storage, bootstrap/cache).
+
+Desabilitar debug no .env.
+
+9. Manutenção
+Para limpar caches:
+
+bash
+docker exec -it gestao_backend php artisan config:clear
+docker exec -it gestao_backend php artisan route:clear
+docker exec -it gestao_backend php artisan cache:clear
+docker exec -it gestao_backend php artisan view:clear
+Para atualizar código:
+
+bash
+git pull origin main
+docker-compose up -d --build
+🎯 Resumindo
+Esse checklist cobre:
+
+Preparação do servidor
+
+Configuração de ambiente
+
+Build do frontend
+
+Deploy com Docker Compose
+
+Configuração do Nginx
+
+Segurança e manutenção
