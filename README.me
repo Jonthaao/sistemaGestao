@@ -1,0 +1,103 @@
+# 📌 Sistema de Gestão
+
+Projeto desenvolvido em **Laravel** com suporte a **Docker** para facilitar o ambiente de desenvolvimento e colaboração.
+
+---
+
+## 🚀 Tecnologias utilizadas
+- [Laravel](https://laravel.com/) 12
+- [PHP](https://www.php.net/) 8.x
+- [Composer](https://getcomposer.org/)
+- [Docker](https://www.docker.com/)
+- [MySQL](https://www.mysql.com/) ou MariaDB
+- [Nginx](https://www.nginx.com/)
+
+---
+
+## ⚙️ Instalação e configuração
+
+### 1. Clonar o repositório
+```bash
+git clone git@github.com:Jonthaao/sistemaGestao.git
+cd sistemaGestao
+2. Configurar o ambiente
+Copie o arquivo .env.example para .env:
+
+bash
+cp .env.example .env
+Edite o .env conforme necessário (banco de dados, porta do servidor etc).
+
+3. Subir containers com Docker
+bash
+docker-compose up -d
+4. Instalar dependências
+Dentro do container backend:
+
+bash
+docker exec -it gestao_backend bash
+composer install
+php artisan key:generate
+php artisan migrate
+🧪 Testando a aplicação
+Após subir os containers, acesse no navegador:
+
+Código
+http://localhost:8080/api/health
+Você deve ver:
+
+json
+{
+  "status": "ok",
+  "message": "API está funcionando!"
+}
+🔧 Comandos úteis
+Limpar caches do Laravel
+
+bash
+php artisan config:clear
+php artisan route:clear
+php artisan cache:clear
+php artisan view:clear
+Listar rotas
+
+bash
+php artisan route:list
+Corrigir permissões (Linux)
+
+bash
+sudo chown -R www-data:www-data backend/storage backend/bootstrap/cache backend/vendor
+sudo chmod -R 775 backend/storage backend/bootstrap/cache backend/vendor
+👥 Colaboração
+Crie branches para novas funcionalidades:
+
+bash
+git checkout -b feature/nova-funcionalidade
+git push -u origin feature/nova-funcionalidade
+Faça commits claros e objetivos:
+
+bash
+git commit -m "Adiciona endpoint de saúde da API"
+Use pull requests para revisão de código antes de mergear na main.
+
+📌 Estrutura do projeto
+Código
+backend/
+ ├── app/              # Código principal (Controllers, Models, Providers)
+ ├── routes/           # Definição das rotas (api.php, web.php)
+ ├── storage/          # Logs, cache e arquivos temporários
+ ├── bootstrap/        # Arquivos de inicialização
+ ├── vendor/           # Dependências do Composer
+ └── docker-compose.yml
+🛡️ Observações importantes
+Nunca suba o arquivo .env para o GitHub (já está no .gitignore).
+
+O diretório vendor/ também não deve ser versionado.
+
+Para compartilhar configurações seguras, use o .env.example.
+
+📖 Próximos passos
+Documentar endpoints da API (ex: usando Swagger ou Postman).
+
+Configurar CI/CD para automatizar testes e deploy.
+
+Adicionar instruções de como rodar testes unitários.
