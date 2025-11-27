@@ -22,3 +22,44 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# =========================================
+# Laravel
+# =========================================
+/vendor/
+/node_modules/
+/public/storage
+/storage/*.key
+.env
+.env.production
+.env.local
+
+# =========================================
+# Logs & Cache
+# =========================================
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/bootstrap/cache/*
+
+# =========================================
+# Docker
+# =========================================
+/postgres_data
+/backend/php.ini
+
+# =========================================
+# Frontend (Vue.js)
+# =========================================
+/frontend/node_modules/
+/frontend/dist/
+
+# =========================================
+# Produção (IGNORAR NA DEVELOPER)
+# =========================================
+deploy.sh
+docker-compose.override.yml
+nginx/default.conf
+certbot/
+ssl/
