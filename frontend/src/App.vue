@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import WelcomePageVue from './views/WelcomePage.vue'
+import WelcomePage from './views/WelcomePage.vue'
 
 const apiUrl = import.meta.env.VITE_API_URL
 const message = ref('Carregando...')
@@ -40,6 +42,7 @@ onMounted(async () => {
       </ul>
     </div>
   </div>
+  <WelcomePage />
 </template>
 
 <style scoped>
