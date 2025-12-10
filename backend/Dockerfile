@@ -27,22 +27,21 @@ RUN docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Criar usuário do sistema
-RUN useradd -G www-data,root -u $uid -d /home/$user $user \
-    && mkdir -p /home/$user/.composer \
-    && chown -R $user:$user /home/$user
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 
 # Definir diretório de trabalho
 WORKDIR /var/www
 
+# Copiar permissões
+COPY --chown=$user:$user . /var/www
+
 # Mudar para usuário criado
-USER www-data
+USER $user
 
 # Expor porta
 EXPOSE 8000
 
-# Copiar configuração customizada do PHP-FPM
-COPY php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
-
-# Comando padrão NÃO usa php-fpm (porque estamos usando php -S)
+# Comando padrão
 CMD ["php-fpm"]
-
